@@ -1,4 +1,5 @@
 const fs = require('fs')
+const {fa} = require('regexp-tree');
 
 if (process.argv.length !== 3) {
   console.log('Usage: node benchmark.js <filename>')
@@ -6,11 +7,11 @@ if (process.argv.length !== 3) {
 }
 
 function measure(data, pattern) {
-  const start = process.hrtime()
+  const start = process.hrtime();
 
-  const regex = new RegExp(pattern, 'g')
-  const matches = data.match(regex)
-  const count = matches.length
+  console.log(pattern)
+  const matches = fa.test(`/${pattern}/`, data);
+  const count = 0
 
   const end = process.hrtime(start)
 
@@ -18,6 +19,8 @@ function measure(data, pattern) {
 }
 
 const data = fs.readFileSync(process.argv[2], 'utf8')
+
+measure(data, 'ab|c*')
 
 // Email
 // measure(data, '[\\w.+-]+@[\\w.-]+\\.[\\w.-]+')
